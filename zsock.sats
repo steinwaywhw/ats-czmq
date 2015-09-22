@@ -37,76 +37,108 @@ fun zsock_new_stream (endpoint: string): [l:addr] zsock_t l                    =
 (*  better use zsock_bind_internal to match "mac#", 
  *	and use zsock_bind with assert ret >= 0 
  *)
-fun zsock_bind {ts:types} (self: !zsock_t, format: string, args: ts): int = "mac#"
+
+(* use zsys_sprintf with return value zstr_t *)
+fun zsock_bind (self: !zsock_t, format: string): int = "mac#zsock_bind_internal"
+%{#
+	int zsock_bind_internal (zsock_t *self, const char *format) {
+		int ret = zsock_bind (self, format);
+		assert (ret >= 0);
+		return ret;
+	}
+%}
 
 fun zsock_endpoint (self: !zsock_t): string
+fun zsock_unbind (self: !zsock_t, format: string): int = "mac#zsock_unbind_internal"
+%{#
+	int zsock_unbind_internal (zsock_t *self, const char *format) {
+		int ret = zsock_unbind (self, format);
+		assert (ret >= 0);
+		return ret;
+	}
+%}
 
-(* same with zsock_bind *)
-fun zsock_unbind {ts:types} (self: !zsock_t, format: string, args: ts): int = "mac#"
+fun zsock_connect (self: !zsock_t, format: string): int = "mac#zsock_connect_internal"
+%{#
+	int zsock_connect_internal (zsock_t *self, const char *format) {
+		int ret = zsock_connect (self, format);
+		assert (ret >= 0);
+		return ret;
+	}
+%}
 
-(* same with zsock_bind *)
-fun zsock_connect {ts:types} (self: !zsock_t, format: string, args: ts): int = "mac#"
+fun zsock_disconnect (self: !zsock_t, format: string): int = "mac#zsock_disconnect_internal"
+%{#
+	int zsock_disconnect_internal (zsock_t *self, const char *format) {
+		int ret = zsock_disconnect (self, format);
+		assert (ret >= 0);
+		return ret;
+	}
+%}
 
-(* same with zsock_bind *)
-fun zsock_disconnect {ts:types} (self: !zsock_t, format: string, args: ts): int = "mac#"
-
-(* same with zsock_bind *)
-fun zsock_attach (self: !zsock_t, endpoints: string, serverish: bool): int = "mac#"
+fun zsock_attach (self: !zsock_t, endpoints: string, serverish: bool): int = "mac#zsock_attach_internal"
+%{#
+	int zsock_attach_internal (zsock_t *self, const char *endpoints, bool serverish) {
+		int ret = zsock_attach (self, endpoints, serverish);
+		assert (ret >= 0);
+		return ret;
+	}
+%}
 
 fun zsock_type_str (self: !zsock_t): string
 
-fun zsock_send {ts:types} (self: !zsock_t, picture: string, args: ts): int = "mac#zsock_send_internal"
-%{#
-	int zsock_send_internal (void *self, const char *picture, ...) {
-		va_list args;
-		va_start (args, picture);
-		int ret = zsock_vsend (self, picture, args);
-		va_end (args);
+//fun zsock_send (self: !zsock_t, picture: string): int = "mac#zsock_send_internal"
+//%{#
+//	int zsock_send_internal (void *self, const char *picture, ...) {
+//		va_list args;
+//		va_start (args, picture);
+//		int ret = zsock_vsend (self, picture, args);
+//		va_end (args);
 
-		assert (ret == 0);
-		return ret;
-	}
-%}
+//		assert (ret == 0);
+//		return ret;
+//	}
+//%}
 
 
-fun zsock_recv {ts:types} (self: !zsock_t, picture: string, args: ts): int = "mac#zsock_recv_internal"
-%{#
-	int zsock_recv_internal (void *self, const char *picture, ...) {
-		va_list args;
-		va_start (args, picture);
-		int ret = zsock_vrecv (self, picture, args);
-		va_end (args);
+//fun zsock_recv (self: !zsock_t, picture: string): int = "mac#zsock_recv_internal"
+//%{#
+//	int zsock_recv_internal (void *self, const char *picture, ...) {
+//		va_list args;
+//		va_start (args, picture);
+//		int ret = zsock_vrecv (self, picture, args);
+//		va_end (args);
 
-		assert (ret == 0);
-		return ret;
-	}
-%}
+//		assert (ret == 0);
+//		return ret;
+//	}
+//%}
 
-fun zsock_bsend {ts:types} (self: !zsock_t, picture: string, args: ts): int = "mac#zsock_bsend_internal"
-%{#
-	int zsock_bsend_internal (void *self, const char *picture, ...) {
-		va_list args;
-		va_start (args, picture);
-		int ret = zsock_vbsend (self, picture, args);
-		va_end (args);
+//fun zsock_bsend (self: !zsock_t, picture: string): int = "mac#zsock_bsend_internal"
+//%{#
+//	int zsock_bsend_internal (void *self, const char *picture, ...) {
+//		va_list args;
+//		va_start (args, picture);
+//		int ret = zsock_vbsend (self, picture, args);
+//		va_end (args);
 
-		assert (ret == 0);
-		return ret;
-	}
-%}
+//		assert (ret == 0);
+//		return ret;
+//	}
+//%}
 
-fun zsock_brecv {ts:types} (self: !zsock_t, picture: string, args: ts): int = "mac#zsock_brecv_internal"
-%{#
-	int zsock_brecv_internal (void *self, const char *picture, ...) {
-		va_list args;
-		va_start (args, picture);
-		int ret = zsock_vbrecv (self, picture, args);
-		va_end (args);
+//fun zsock_brecv (self: !zsock_t, picture: string): int = "mac#zsock_brecv_internal"
+//%{#
+//	int zsock_brecv_internal (void *self, const char *picture, ...) {
+//		va_list args;
+//		va_start (args, picture);
+//		int ret = zsock_vbrecv (self, picture, args);
+//		va_end (args);
 
-		assert (ret == 0);
-		return ret;
-	}
-%}
+//		assert (ret == 0);
+//		return ret;
+//	}
+//%}
 
 fun zsock_set_unbounded (self: !zsock_t): void = "mac#"
 

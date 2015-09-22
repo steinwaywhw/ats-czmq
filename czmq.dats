@@ -1,4 +1,4 @@
-staload "czmq_library.sats"
+staload "czmq.sats"
 
 
-implement main0 () = zsock_test true
+implement main0 () = zmsg_test true

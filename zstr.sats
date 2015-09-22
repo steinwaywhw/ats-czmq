@@ -25,8 +25,8 @@ fun zstr_sendm (dest: !zsock_t, string: string): int = "mac#zstr_sendm_internal"
 %}
 
 (* better check return value *)
-fun zstr_sendf {ts:types} (dest: !zsock_t, format: string, args: ts): int = "mac#"
-fun zstr_sendfm {ts:types} (dest: !zsock_t, format: string, args: ts): int = "mac#"
+fun zstr_sendf (dest: !zsock_t, format: string): int = "mac#"
+fun zstr_sendfm (dest: !zsock_t, format: string): int = "mac#"
 
 (* not supported yet *)
 //fun zstr_sendx (dest: !zsock_t, const char *string, ...): int = "mac#"

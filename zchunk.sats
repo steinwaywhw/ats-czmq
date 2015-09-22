@@ -19,6 +19,7 @@ fun zchunk_max_size (self: !zchunk_t): size_t = "mac#"
 (* not safe *)
 fun zchunk_data (self: !zchunk_t): [m:addr|m>null] ptr m = "mac#"
 
+(* TODO &(@[byte][n]) *)
 fun zchunk_set {m:addr} (self: !zchunk_t, data: ptr m, size: size_t): size_t = "mac#"
 fun zchunk_fill (self: !zchunk_t, filler: byte, size: size_t): size_t = "mac#"
 fun zchunk_append {m:addr|m>null} (self: !zchunk_t, data: ptr m, size: size_t): size_t = "mac#"
